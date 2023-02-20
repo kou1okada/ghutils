@@ -18,7 +18,7 @@ config_file="#{CONFIGDIR}/config.json"
 schema_cache="#{CACHEDIR}/schema.marshal"
 FileUtils.mkdir_p [CACHEDIR, CONFIGDIR]
 
-$config.merge! JSON.parse IO.read config_file if File.exists? config_file
+$config.merge! JSON.parse IO.read config_file if File.exist? config_file
 
 opts = OptionParser.new
 opts.banner = "Usage: #{File.basename $0} [<username> ...]"
@@ -40,7 +40,7 @@ HTTP = GraphQL::Client::HTTP.new("https://api.github.com/graphql") do
   end
 end
 
-if File.exists? schema_cache
+if File.exist? schema_cache
   Schema = GraphQL::Client.load_schema(Marshal.load(IO.read schema_cache))
 else
   schema_hash = GraphQL::Client.dump_schema(HTTP)
